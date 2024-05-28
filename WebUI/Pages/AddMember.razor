@@ -1,0 +1,115 @@
+﻿@page "/add-member"
+@using Entities.Concrete
+@using WebUI.Services
+@using DevExpress.Pdf
+@inject IDataService dataService
+@inject NavigationManager NavManager
+
+<h2>Add Member</h2>
+
+<div class="cw-880">
+
+    <EditForm OnValidSubmit="@HandleValidSubmit"
+              @* OnInvalidSubmit="@HandleInvalidSubmit" *@
+              Context="EditFormContext"
+              Model="@member">
+
+        <DxFormLayout CssClass="w-1100">
+            <DxFormLayoutGroup Caption="Üyelik Bilgileri" CaptionPosition="CaptionPosition.Vertical">
+                <DxFormLayoutItem Caption="Üye Adı:">
+                    <DxTextBox @bind-Text="@member.FirstName"
+                               NullText="First Name"
+                               ShowValidationIcon="true" />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Üye Soyadı:">
+                    <DxTextBox @bind-Text="@member.LastName"
+                               NullText="Last Name"
+                               ShowValidationIcon="true" />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Email:" BeginRow="true">
+                    <DxTextBox @bind-Text="@member.Email"
+                               NullText="Email"
+                               ShowValidationIcon="true" />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Phone Number:">
+                    <DxMaskedInput @bind-Value="@member.PhoneNumber"
+                                   CssClass="cw-320"
+                                   Mask="(555) 555 55 55" T="string" ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" />
+                </DxFormLayoutItem>
+                <div class="row w-100 mx-0" style="color:red !important">
+                    <p class="demo-text col-12 mt-2">
+                        @* <b>@FormValidationState</b> *@
+                    </p>
+                </div>
+            </DxFormLayoutGroup>
+            <DxFormLayoutGroup Caption="Kişisel Bilgiler" CaptionPosition="CaptionPosition.Vertical">
+                <DxFormLayoutItem Caption="TC Kimlik No:">
+                    <DxMaskedInput @bind-Value="@personalInformation.TCNumber"
+                                   CssClass="cw-320"
+                                   Mask="55555555555"
+                                   T="string"
+                                   ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"
+                                   ShowValidationIcon="true" />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Cinsiyet:">
+                    @foreach (var option in Genders)
+                    {
+                        <DxRadio GroupName="general-radio-group"
+                                 @bind-GroupValue="@personalInformation.Gender"
+                                 Value="@option"
+                                 CssClass="dx-demo-radio">
+                        </DxRadio>
+                    }
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Email:" BeginRow="true">
+                    <DxTextBox @bind-Text="@member.Email"
+                               NullText="Email"
+                               ShowValidationIcon="true" />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Phone Number:" BeginRow="true">
+                    <DxTextBox @bind-Text="member.PhoneNumber"
+                               NullText="Phone Number"
+                               ShowValidationIcon="true" />
+                </DxFormLayoutItem>
+                <div class="row w-100 mx-0" style="color:red !important">
+                    <p class="demo-text col-12 mt-2">
+                        @* <b>@FormValidationState</b> *@
+                    </p>
+                </div>
+            </DxFormLayoutGroup>
+            <DxFormLayoutItem ColSpanMd="12">
+                <DxButton SubmitFormOnClick="true"
+                          Text="Kaydet"
+                          RenderStyle="ButtonRenderStyle.Secondary" />
+            </DxFormLayoutItem>
+            <DxFormLayoutItem BeginRow="true"
+                              CssClass="w-100"
+                              Caption="Preview"
+                              CaptionPosition="CaptionPosition.Vertical">
+            </DxFormLayoutItem>
+        </DxFormLayout>
+    </EditForm>
+
+</div>
+
+
+
+@code {
+    
+    Member member = new Member();
+    PersonalInformation personalInformation = new PersonalInformation();
+
+    void HandleValidSubmit()
+    {
+        dataService
+
+        NavManager.NavigateTo("/grid");
+    }
+
+    // void HandleInvalidSubmit()
+    // {
+    //     FormValidationState = @"Preencha todos os campos corretamente!";
+    // }
+
+    IEnumerable<string> Genders = new[] { "Erkek", "Kadın" };
+}

@@ -1,0 +1,28 @@
+﻿@page "/members"
+@using Entities.Concrete
+@using WebUI.Services
+@inject IDataService _dataService
+
+
+<h3>MemberList</h3>
+
+
+
+<DxGrid Data="@Data" CssClass="mw-1100">
+    <Columns>
+        <DxGridDataColumn FieldName="FirstName" />
+        <DxGridDataColumn FieldName="LastName" />
+        <DxGridDataColumn FieldName="PhoneNumber" />
+    </Columns>
+</DxGrid>
+
+
+
+@code {
+    private IEnumerable<Member> Data = new List<Member>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Data = await _dataService.GetAllMembersAsync();
+    }
+}
