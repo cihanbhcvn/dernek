@@ -9,9 +9,10 @@ namespace Entities.Concrete
         public int AddressId { get; set; }
         public string TCNumber { get; set; }
         public string Gender { get; set; }
+        public string MembershipStatus { get; set; }
         public string MarriageStatus { get; set; }
-        public string BloodType { get; set; }
-        public string DrivingLicense { get; set; }
+        public int BloodTypeId { get; set; }
+        public int DriverLicenseId { get; set; }
         public virtual Member Member { get; set; }
         public virtual Address Address { get; set; }
 

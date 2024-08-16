@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,8 @@ namespace Business.Concrete
 
         public IResult Delete(Member member)
         {
-            throw new NotImplementedException();
+            _memberDal.Delete(member);
+            return new SuccessResult();
         }
 
         public IDataResult<List<Member>> GetAll()
@@ -45,7 +47,7 @@ namespace Business.Concrete
 
         public IDataResult<Member> GetById(int id)
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<Member>(_memberDal.Get(x => x.Id == id));
         }
 
         public IResult Update(Member member)

@@ -2,7 +2,7 @@
 
 namespace Business.Abstract
 {
-    public interface IMemberService : IGenericService<Member>
+    public interface ICityService : IGenericService<City>
     {
     }
 }

@@ -9,10 +9,8 @@ namespace Entities.Concrete
         public int DistrictId { get; set; }
         public int NeighbourhoodId { get; set; }
         public int StreetId { get; set; }
-        public string? ApartmentName { get; set; } = null;
-        public string? Floor { get; set; }
         public string? DoorNumber { get; set; }
-
-
+        public string? Floor { get; set; }
+        public string? ApartmentName { get; set; } = null;
     }
 }
