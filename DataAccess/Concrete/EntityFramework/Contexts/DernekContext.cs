@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,7 +11,7 @@ namespace DataAccess.Concrete.EntityFramework.Contexts
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=DESKTOP-SJMB6FQ;Database=DernekDb;Trusted_Connection=true;TrustServerCertificate=True");
+            optionsBuilder.UseSqlServer(@"Server=.;Database=Dernek;Trusted_Connection=true;TrustServerCertificate=True");
         }
 
         public DbSet<Member> Members { get; set; }
