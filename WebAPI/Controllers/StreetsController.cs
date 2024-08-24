@@ -1,25 +1,24 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MembersController : ControllerBase
+    public class StreetsController : ControllerBase
     {
-        private readonly IMemberService _memberService;
+        private readonly IStreetService _streetService;
 
-        public MembersController(IMemberService memberService)
+        public StreetsController(IStreetService streetService)
         {
-            _memberService = memberService;
+            _streetService = streetService;
         }
 
         [HttpGet("getlist")]
         public IActionResult GetList()
         {
-            var result = _memberService.GetAll();
+            var result = _streetService.GetAll();
 
             if (result.Success)
             {
@@ -34,7 +33,7 @@ namespace WebAPI.Controllers
         [HttpGet("get")]
         public IActionResult GetById(int id)
         {
-            var result = _memberService.GetById(id);
+            var result = _streetService.GetById(id);
 
             if (result.Success)
             {
@@ -43,13 +42,14 @@ namespace WebAPI.Controllers
             else
             {
                 return BadRequest(result.Message);
+
             }
         }
 
         [HttpPost("add")]
-        public IActionResult AddMember(Member member)
+        public IActionResult AddStreet(Street street)
         {
-            var result = _memberService.Add(member);
+            var result = _streetService.Add(street);
 
             if (result.Success)
             {
@@ -62,9 +62,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("update")]
-        public IActionResult UpdateMember(Member member)
+        public IActionResult UpdateStreet(Street street)
         {
-            var result = _memberService.Update(member);
+            var result = _streetService.Update(street);
 
             if (result.Success)
             {
@@ -77,15 +77,15 @@ namespace WebAPI.Controllers
         }
 
         [HttpDelete("delete")]
-        public IActionResult DeleteMember(int id)
+        public IActionResult DeleteStreet(int id)
         {
-            var result = _memberService.GetById(id);
+            var result = _streetService.GetById(id);
 
             if (result.Success)
             {
                 try
                 {
-                    _memberService.Delete(result.Data);
+                    _streetService.Delete(result.Data);
                     return Ok();
                 }
                 catch (Exception ex)
@@ -99,4 +99,4 @@ namespace WebAPI.Controllers
             }
         }
     }
-}
+} 

@@ -1,25 +1,24 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MembersController : ControllerBase
+    public class ManagementsController : ControllerBase
     {
-        private readonly IMemberService _memberService;
+        private readonly IManagementService _managementService;
 
-        public MembersController(IMemberService memberService)
+        public ManagementsController(IManagementService managementService)
         {
-            _memberService = memberService;
+            _managementService = managementService;
         }
 
         [HttpGet("getlist")]
         public IActionResult GetList()
         {
-            var result = _memberService.GetAll();
+            var result = _managementService.GetAll();
 
             if (result.Success)
             {
@@ -34,7 +33,7 @@ namespace WebAPI.Controllers
         [HttpGet("get")]
         public IActionResult GetById(int id)
         {
-            var result = _memberService.GetById(id);
+            var result = _managementService.GetById(id);
 
             if (result.Success)
             {
@@ -47,9 +46,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult AddMember(Member member)
+        public IActionResult AddManagement(Management management)
         {
-            var result = _memberService.Add(member);
+            var result = _managementService.Add(management);
 
             if (result.Success)
             {
@@ -62,9 +61,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("update")]
-        public IActionResult UpdateMember(Member member)
+        public IActionResult UpdateManagement(Management management)
         {
-            var result = _memberService.Update(member);
+            var result = _managementService.Update(management);
 
             if (result.Success)
             {
@@ -77,15 +76,15 @@ namespace WebAPI.Controllers
         }
 
         [HttpDelete("delete")]
-        public IActionResult DeleteMember(int id)
+        public IActionResult DeleteManagement(int id)
         {
-            var result = _memberService.GetById(id);
+            var result = _managementService.GetById(id);
 
             if (result.Success)
             {
                 try
                 {
-                    _memberService.Delete(result.Data);
+                    _managementService.Delete(result.Data);
                     return Ok();
                 }
                 catch (Exception ex)
@@ -99,4 +98,4 @@ namespace WebAPI.Controllers
             }
         }
     }
-}
+} 

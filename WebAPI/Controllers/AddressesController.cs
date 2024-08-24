@@ -1,25 +1,24 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MembersController : ControllerBase
+    public class AddressesController : ControllerBase
     {
-        private readonly IMemberService _memberService;
+        private readonly IAddressService _addressService;
 
-        public MembersController(IMemberService memberService)
+        public AddressesController(IAddressService addressService)
         {
-            _memberService = memberService;
+            _addressService = addressService;
         }
 
         [HttpGet("getlist")]
         public IActionResult GetList()
         {
-            var result = _memberService.GetAll();
+            var result = _addressService.GetAll();
 
             if (result.Success)
             {
@@ -34,7 +33,7 @@ namespace WebAPI.Controllers
         [HttpGet("get")]
         public IActionResult GetById(int id)
         {
-            var result = _memberService.GetById(id);
+            var result = _addressService.GetById(id);
 
             if (result.Success)
             {
@@ -47,9 +46,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult AddMember(Member member)
+        public IActionResult AddAddress(Address address)
         {
-            var result = _memberService.Add(member);
+            var result = _addressService.Add(address);
 
             if (result.Success)
             {
@@ -62,9 +61,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("update")]
-        public IActionResult UpdateMember(Member member)
+        public IActionResult UpdateAddress(Address address)
         {
-            var result = _memberService.Update(member);
+            var result = _addressService.Update(address);
 
             if (result.Success)
             {
@@ -77,15 +76,15 @@ namespace WebAPI.Controllers
         }
 
         [HttpDelete("delete")]
-        public IActionResult DeleteMember(int id)
+        public IActionResult DeleteAddress(int id)
         {
-            var result = _memberService.GetById(id);
+            var result = _addressService.GetById(id);
 
             if (result.Success)
             {
                 try
                 {
-                    _memberService.Delete(result.Data);
+                    _addressService.Delete(result.Data);
                     return Ok();
                 }
                 catch (Exception ex)

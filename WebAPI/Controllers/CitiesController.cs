@@ -1,25 +1,26 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
+    /////////////////////
+
     [Route("api/[controller]")]
     [ApiController]
-    public class MembersController : ControllerBase
+    public class CitiesController : ControllerBase
     {
-        private readonly IMemberService _memberService;
+        private readonly ICityService _cityService;
 
-        public MembersController(IMemberService memberService)
+        public CitiesController(ICityService cityService)
         {
-            _memberService = memberService;
+            _cityService = cityService;
         }
 
         [HttpGet("getlist")]
         public IActionResult GetList()
         {
-            var result = _memberService.GetAll();
+            var result = _cityService.GetAll();
 
             if (result.Success)
             {
@@ -34,7 +35,7 @@ namespace WebAPI.Controllers
         [HttpGet("get")]
         public IActionResult GetById(int id)
         {
-            var result = _memberService.GetById(id);
+            var result = _cityService.GetById(id);
 
             if (result.Success)
             {
@@ -47,9 +48,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult AddMember(Member member)
+        public IActionResult AddCity(City city)
         {
-            var result = _memberService.Add(member);
+            var result = _cityService.Add(city);
 
             if (result.Success)
             {
@@ -62,9 +63,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("update")]
-        public IActionResult UpdateMember(Member member)
+        public IActionResult UpdateCity(City city)
         {
-            var result = _memberService.Update(member);
+            var result = _cityService.Update(city);
 
             if (result.Success)
             {
@@ -77,15 +78,15 @@ namespace WebAPI.Controllers
         }
 
         [HttpDelete("delete")]
-        public IActionResult DeleteMember(int id)
+        public IActionResult DeleteCity(int id)
         {
-            var result = _memberService.GetById(id);
+            var result = _cityService.GetById(id);
 
             if (result.Success)
             {
                 try
                 {
-                    _memberService.Delete(result.Data);
+                    _cityService.Delete(result.Data);
                     return Ok();
                 }
                 catch (Exception ex)

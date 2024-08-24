@@ -1,25 +1,24 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MembersController : ControllerBase
+    public class NeighbourhoodsController : ControllerBase
     {
-        private readonly IMemberService _memberService;
+        private readonly INeighbourhoodService _neighbourhoodService;
 
-        public MembersController(IMemberService memberService)
+        public NeighbourhoodsController(INeighbourhoodService neighbourhoodService)
         {
-            _memberService = memberService;
+            _neighbourhoodService = neighbourhoodService;
         }
 
         [HttpGet("getlist")]
         public IActionResult GetList()
         {
-            var result = _memberService.GetAll();
+            var result = _neighbourhoodService.GetAll();
 
             if (result.Success)
             {
@@ -34,7 +33,7 @@ namespace WebAPI.Controllers
         [HttpGet("get")]
         public IActionResult GetById(int id)
         {
-            var result = _memberService.GetById(id);
+            var result = _neighbourhoodService.GetById(id);
 
             if (result.Success)
             {
@@ -47,9 +46,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult AddMember(Member member)
+        public IActionResult AddNeighbourhood(Neighbourhood neighbourhood)
         {
-            var result = _memberService.Add(member);
+            var result = _neighbourhoodService.Add(neighbourhood);
 
             if (result.Success)
             {
@@ -62,9 +61,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("update")]
-        public IActionResult UpdateMember(Member member)
+        public IActionResult UpdateNeighbourhood(Neighbourhood neighbourhood)
         {
-            var result = _memberService.Update(member);
+            var result = _neighbourhoodService.Update(neighbourhood);
 
             if (result.Success)
             {
@@ -77,15 +76,15 @@ namespace WebAPI.Controllers
         }
 
         [HttpDelete("delete")]
-        public IActionResult DeleteMember(int id)
+        public IActionResult DeleteNeighbourhood(int id)
         {
-            var result = _memberService.GetById(id);
+            var result = _neighbourhoodService.GetById(id);
 
             if (result.Success)
             {
                 try
                 {
-                    _memberService.Delete(result.Data);
+                    _neighbourhoodService.Delete(result.Data);
                     return Ok();
                 }
                 catch (Exception ex)
