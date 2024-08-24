@@ -11,6 +11,6 @@ namespace Entities.Concrete
         public int StreetId { get; set; }
         public string? DoorNumber { get; set; }
         public string? Floor { get; set; }
-        public string? ApartmentName { get; set; } = null;
+        public string? BuildingName { get; set; } = null;
     }
 }
