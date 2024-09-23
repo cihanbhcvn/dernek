@@ -1,0 +1,45 @@
+﻿<h3>Şehir Seçimi</h3>
+
+@if (cities == null)
+{
+    <p><em>Yükleniyor...</em></p>
+}
+else
+{
+    <select @onchange="OnSelectedCityChanged">
+        <option value="">Şehir Seçiniz</option>
+        @foreach (var city in cities)
+        {
+            <option value="@city.Id">@city.Name</option>
+        }
+    </select>
+}
+
+@code {
+    [Parameter]
+    public EventCallback<int> OnCitySelected { get; set; }
+
+    private List<CityDto> cities;
+
+    protected override async Task OnInitializedAsync()
+    {
+        cities = await Http.GetFromJsonAsync<List<CityDto>>("cities");
+    }
+
+    private async Task OnSelectedCityChanged(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value.ToString(), out int cityId))
+        {
+            await OnCitySelected.InvokeAsync(cityId);
+        }
+    }
+
+    [Inject]
+    private HttpClient Http { get; set; }
+
+    public class CityDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+}

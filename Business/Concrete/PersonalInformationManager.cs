@@ -1,6 +1,9 @@
 ﻿using Business.Abstract;
-using Business.CCS;
+using Business.BusinessAspects.Autofac;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
@@ -16,7 +19,6 @@ namespace Business.Concrete
 
 
         private readonly IPersonalInformationDal _personalInformationDal;
-        private readonly ILogger _logger;
 
 
         public PersonalInformationManager(IPersonalInformationDal personalInformationDal)
@@ -29,17 +31,18 @@ namespace Business.Concrete
 
         #region Endpoints 
 
-
+        [SecuredOperation("admin,personalInformation.add")]
         [ValidationAspect(typeof(PersonalInformationValidator))]
+        [CacheRemoveAspect("IPersonalInformationService.Get")]
         public IResult Add(PersonalInformation personalInformation)
         {
             var result = BusinessRules.Run();
-            if(true /*result*/) // İş kuralları
+            if (true /*result*/) // İş kuralları
             {
                 _personalInformationDal.Add(personalInformation);
                 return new SuccessResult();
             }
-            
+
 
             //return new ErrorResult(result.Message);
         }
@@ -57,22 +60,30 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
+        [CacheAspect]
         public IDataResult<List<PersonalInformation>> GetAll()
         {
             return new SuccessDataResult<List<PersonalInformation>>(_personalInformationDal.GetList().ToList());
         }
 
+        [CacheAspect]
+        [PerformanceAspect(5)]
         public IDataResult<PersonalInformation> GetById(int id)
         {
             return new SuccessDataResult<PersonalInformation>(_personalInformationDal.Get(x => x.Id == id));
         }
 
+        [TransactionScopeAspect]
+        public IResult AddTransactionalTest(PersonalInformation personalInformation)
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion Endpoints
 
         #region BusinessRules
         // In order to run these rules in BusinessRules.Run() method, they must return IResult
-        
+
         private IResult Example()
         {
             return new SuccessResult();

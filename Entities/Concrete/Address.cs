@@ -1,8 +1,9 @@
 ﻿using Core.Entities;
+using Entities.Abstract;
 
 namespace Entities.Concrete
 {
-    public class Address : IEntity
+    public class Address : BaseEntity, IEntity
     {
         public int Id { get; set; }
         public int CityId { get; set; }

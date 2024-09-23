@@ -1,8 +1,9 @@
 ﻿using Core.Entities;
+using Entities.Abstract;
 
 namespace Entities.Concrete
 {
-    public class PersonalInformation : IEntity
+    public class PersonalInformation : BaseEntity,IEntity
     {
         public int Id { get; set; }
         public int AddressId { get; set; }

@@ -1,8 +1,9 @@
 ﻿using Core.Entities;
+using Entities.Abstract;
 
 namespace Entities.Concrete
 {
-    public class Management : IEntity
+    public class Management : BaseEntity, IEntity
     {
         public int Id { get; set; }
         public int Position { get; set; }
