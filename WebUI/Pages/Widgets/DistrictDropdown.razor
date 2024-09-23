@@ -1,0 +1,55 @@
+﻿<h3>İlçe Seçimi</h3>
+
+@if (districts == null)
+{
+    <p><em>İlçeler yükleniyor...</em></p>
+}
+else if (!districts.Any())
+{
+    <p>Bu şehirde ilçe bulunamadı.</p>
+}
+else
+{
+    <select @bind="selectedDistrict">
+        @foreach (var district in districts)
+        {
+            <option value="@district">@district</option>
+        }
+    </select>
+    <p>Seçilen İlçe: @selectedDistrict</p>
+}
+
+@code {
+    [Parameter]
+    public int CityId { get; set; }
+
+    public int DistrictId { get; set; }
+
+    [Parameter]
+    public EventCallback<int> OnDistrictSelected { get; set; }
+
+    private List<string> districts;
+    private string selectedDistrict;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (CityId != 0)
+        {
+            // districts = await Http.GetFromJsonAsync<List<string>>($"cities/{CityId}/districts");
+
+           
+        }
+    }
+
+
+    private async Task OnSelectedDistrictChanged(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value.ToString(), out int districtId))
+        {
+            await OnDistrictSelected.InvokeAsync(districtId);
+        }
+    }
+
+    [Inject]
+    private HttpClient Http { get; set; }
+}

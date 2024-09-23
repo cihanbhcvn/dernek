@@ -1,0 +1,49 @@
+﻿@page "/home"
+
+<h3>Şehir ve İlçe Seçimi</h3>
+
+
+<div class="row">
+    <div class="col-md-3">
+        <CityDropdown OnCitySelected="HandleCitySelected" />
+    </div>
+    <div class="col-md-3">
+        @if (selectedCityId != 0)
+        {
+            <DistrictDropdown CityId="@selectedCityId" />
+        }
+    </div>
+    <div class="col-md-3">
+        @if (selectedDistrictId != 0)
+        {
+            <NeighbourhoodDropdown />
+        }
+
+    </div>
+    <div class="col-md-3">
+    </div>
+</div>
+
+
+
+
+
+
+@code {
+    private int selectedCityId;
+    private int selectedDistrictId;
+    private int selectedNeighbourhoodId;
+
+    private void HandleCitySelected(int cityId)
+    {
+        selectedCityId = cityId;
+    }
+    private void HandleDistrictSelected(int districtId)
+    {
+        selectedDistrictId = districtId;
+    }
+    private void HandleNeighbourhoodSelected(int neighbourhoodId)
+    {
+        selectedNeighbourhoodId = neighbourhoodId;
+    }
+}

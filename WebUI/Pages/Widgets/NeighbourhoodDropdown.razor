@@ -1,0 +1,53 @@
+﻿<h3>NeighbourhoodDropdown</h3>
+
+@if (neighbourhoods == null)
+{
+    <p><em>Mahalleler yükleniyor...</em></p>
+}
+else if (!neighbourhoods.Any())
+{
+    <p>Bu ilçede mahalle bulunamadı.</p>
+}
+else
+{
+    <select @bind="selectedNeighbourhood">
+        @foreach (var neighbourhood in neighbourhoods)
+        {
+            <option value="@neighbourhood">@neighbourhood</option>
+        }
+    </select>
+    <p>Seçilen Mahalle: @selectedNeighbourhood</p>
+}
+
+@code {
+    [Parameter]
+    public int DistrictId { get; set; }
+
+    public int NeighbourhoodId {get;set;}
+
+    [Parameter]
+    public EventCallback<int> OnNeighbourhoodSelected { get; set; }
+
+    private List<string> neighbourhoods;
+    private string selectedNeighbourhood;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (DistrictId != 0)
+        {
+            neighbourhoods = await Http.GetFromJsonAsync<List<string>>($"url");
+        }
+    }
+
+
+    private async Task OnSelectedNeighbourhoodChanged(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value.ToString(), out int neighbourhoodId))
+        {
+            await OnNeighbourhoodSelected.InvokeAsync(neighbourhoodId);
+        }
+    }
+
+    [Inject]
+    private HttpClient Http { get; set; }
+}
