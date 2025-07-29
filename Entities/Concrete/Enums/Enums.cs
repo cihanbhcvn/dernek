@@ -26,4 +26,16 @@ namespace Entities.Concrete.Enums
         F = 15,
         G = 16
     }
+
+    public enum BloodType
+    {
+        ARhPos = 0,
+        ARhNeg = 1,
+        BRhPos = 2,
+        BRhNeg = 3,
+        ABRhPos = 4,
+        ABRhNeg = 5,
+        ORhPos = 6,
+        ORhNeg = 7,
+    }
 }
